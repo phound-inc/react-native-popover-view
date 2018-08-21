@@ -640,7 +640,7 @@ class Popover extends React.Component {
         maxWidth: forcedContentSize.width,
         maxHeight: forcedContentSize.height,
         position: 'absolute',
-      }, styles.dropShadow, styles.popoverContent, popoverStyle, {
+      }, styles.popoverContent, popoverStyle, {
         transform: [
             {translateX: animatedValues.translate.x},
             {translateY: animatedValues.translate.y},
@@ -660,7 +660,7 @@ class Popover extends React.Component {
                 <Animated.View style={backgroundStyle}/>
               </TouchableWithoutFeedback>
 
-              <View style={{top: 0, left: 0}}>
+              <View style={styles.dropShadowBox}>
                 
                 <Animated.View style={popoverViewStyle} onLayout={evt => this.measureContent(evt.nativeEvent.layout)}>
                   {this.props.children}
@@ -724,7 +724,9 @@ var styles = {
         shadowColor: 'black',
         shadowOffset: {width: 0, height: 2},
         shadowRadius: 2,
-        shadowOpacity: 0.8
+        shadowOpacity: 0.8,
+        top: 0,
+        left: 0,
     },
     arrow: {
         position: 'absolute',
