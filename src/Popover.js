@@ -720,7 +720,7 @@ var styles = {
         backgroundColor: '#f2f2f2',
         position: 'absolute'
     },
-    dropShadow: {
+    dropShadowBox: {
         shadowColor: 'black',
         shadowOffset: {width: 0, height: 2},
         shadowRadius: 2,
