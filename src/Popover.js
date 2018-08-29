@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SafeAreaView, StyleSheet, Dimensions, Animated, Text, TouchableWithoutFeedback, findNodeHandle, NativeModules, View, Modal, Keyboard, Alert, Easing } from 'react-native';
+import { SafeAreaView, StyleSheet, Dimensions, Animated, Text, TouchableWithoutFeedback, findNodeHandle, NativeModules, View, Modal, Keyboard, Alert, Easing, Platform } from 'react-native';
 import { Rect, Point, Size, isIOS, isRect, isPoint, rectChanged, pointChanged, waitForNewRect } from './Utility';
 
 const flattenStyle = require('react-native/Libraries/StyleSheet/flattenStyle');
@@ -13,7 +13,7 @@ const DEFAULT_ARROW_SIZE = new Size(16, 8);
 const DEFAULT_BORDER_RADIUS = 3;
 const FIX_SHIFT = SCREEN_WIDTH * 2;
 
-const DEBUG = true;
+const DEBUG = false;
 
 const PLACEMENT_OPTIONS = Object.freeze({
   TOP: 'top',
@@ -690,7 +690,7 @@ class Popover extends React.Component {
       maxWidth: forcedContentSize.width,
       maxHeight: forcedContentSize.height,
       position: 'absolute',
-    }, styles.dropShadow, styles.popoverContent, popoverStyle, {
+    }, styles.popoverContent, popoverStyle, {
       transform: [
         {translateX: animatedValues.translate.x},
         {translateY: animatedValues.translate.y},
@@ -710,7 +710,7 @@ class Popover extends React.Component {
             <Animated.View style={backgroundStyle}/>
           </TouchableWithoutFeedback>
 
-          <View style={{top: 0, left: 0}}>
+          <View style={Platform.OS === "ios" ? styles.dropShadowWrapperBox : styles.wrapperBox}>
             
             <Animated.View style={popoverViewStyle} onLayout={evt => this.measureContent(evt.nativeEvent.layout)}>
               {this.props.children}
@@ -770,13 +770,17 @@ var styles = {
         backgroundColor: '#f2f2f2',
         position: 'absolute'
     },
-    dropShadowBox: {
+    dropShadowWrapperBox: {
         shadowColor: 'black',
         shadowOffset: {width: 0, height: 2},
         shadowRadius: 2,
         shadowOpacity: 0.8,
         top: 0,
         left: 0,
+    },
+    wrapperBox: {
+      top: 0,
+      left: 0,
     },
     arrow: {
         position: 'absolute',
